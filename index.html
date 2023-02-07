@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Document</title>
+</head>
+<body>
+	<div id="posts">
+		
+	</div>
+	<script>
+		const curretnDay = new Date().getDay();
+		function returnDay(curretnDay) {
+			switch (curretnDay) {
+				case 0:
+					return "Sunday"
+				case 1:
+					return "Monday"
+				case 2:
+					return "Tuesday"
+				case 3:
+					return "Wednesday"
+				case 4:
+					return "Thursday"
+				case 5:
+					return "Friday"
+				case 7:
+					return "Saturday"
+				default:
+					return "Hidden"
+			}
+		}
+		const body = document.getElementsByTagName('body')[0]
+		fetch('https://jsonplaceholder.typicode.com/posts')
+			.then(response => response.json())
+			.then(json => {
+				const data = json;
+				const users = document.getElementById('posts')
+				for (let index = 0; index < data.length; index++) {
+					const element = data[index];
+
+					const day = document.createElement('p')
+					const userId = document.createElement('span')
+					const postWrapper = document.createElement('div')
+					const title = document.createElement('p')
+					const description = document.createElement('p')
+
+					day.classList.add('day')
+					title.classList.add('title')
+					description.classList.add('description')
+
+					day.textContent = `Publish Day: ${returnDay(curretnDay)}`
+					title.textContent = element.title
+					userId.textContent = `User-Id: ${element.userId}`
+					description.textContent = element.body
+
+					posts.appendChild(postWrapper)
+					postWrapper.appendChild(userId)
+					postWrapper.appendChild(day)
+					postWrapper.appendChild(title)
+					postWrapper.appendChild(description)
+				}
+			})
+		.catch(err => {
+			const error = document.createElement('p')
+			error.textContent = err
+			error.style.fontSize = '30px'
+			error.style.color = 'red'
+			body.appendChild(error)
+		})
+	</script>
+</body>
+</html>
